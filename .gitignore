@@ -26,3 +26,4 @@ yarn-error.log*
 
 # Ignorar archivos especificos
 package-lock.json
+.env

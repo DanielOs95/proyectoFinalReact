@@ -61,7 +61,7 @@ const Home = ({ onSearch }) => {
 
 <br />
 <br />
-        <button type="submit">Enviar</button>
+        <button type="submit">Buscar vuelos</button>
 
         </form>
 

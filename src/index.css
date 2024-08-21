@@ -39,3 +39,7 @@ span {
   color: orangered;
   font-size: x-small;
 }
+
+button {
+  background-color: pink;
+}
