@@ -39,3 +39,6 @@ function HotelSearch({location}) {
         </div>
     );
 }
+
+
+export default HotelSearch;

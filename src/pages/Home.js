@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const Home = ({ onSearch }) => { 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const navigate = useNavigate();
+
 
     const onSubmit = handleSubmit((data) => {
         onSearch(data); 
         reset();
+        navigate('/flights');
     });
 
 
