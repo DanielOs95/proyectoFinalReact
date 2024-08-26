@@ -4,19 +4,20 @@ import axios from 'axios'
 
 function HotelSearch({location}) {
     const [hotels, setHotels] = useState([]);
-    const { destination, departureDate, returnDate } = location.state.tripData;
+    const tripData = location.state.tripData || {};
+    const { destination, departureDate, returnDate } = tripData;
 
     useEffect(() => {
         const fetchHotels = async () => {
             try {
-                const response = await axios.get('API_URL', {
+                const response = await axios.get('https://test.api.amadeus.com/v2/shopping/hotel-offers', {
                     params: {
                         location: destination,
                         checking: departureDate,
                         checkout: returnDate,
                     },
                 });
-                setHotels(response.data);
+                setHotels(response.data.data);
             } catch (error) {
                 console.error('Error fetching hotels', error);
             }

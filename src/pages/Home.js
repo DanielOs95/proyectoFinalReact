@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import Map from '../components/Map';
+import WeatherAlert from '../components/WeatherAlert';
 
 const Home = ({ onSearch }) => { 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const navigate = useNavigate();
+    const [tripData, setTripData] = useState(null);
 
 
     const onSubmit = handleSubmit((data) => {
         onSearch(data); 
+        setTripData(data);
         reset();
-        navigate('/flights');
+        navigate('/flights', { state: {tripData: data} });
+        
     });
 
 
     return (
+        <div>
         <form onSubmit={onSubmit}>
 
             <label htmlFor="origen">De donde viajas</label>
@@ -69,10 +75,14 @@ const Home = ({ onSearch }) => {
 
         </form>
 
-        )
+        {tripData && <WeatherAlert location={{state:{ tripData }}} />}
 
+        <Map />
+        </div>
 
-}
+        );
+
+};
 
 
 

@@ -5,7 +5,7 @@ function Itinerary() {
     const [itinerary, setItinerary] = useState([]);
 
     const addToItinerary = (item) => {
-        setItinerary([...Itinerary, item]);
+        setItinerary([...itinerary, item]);
     };
 
 

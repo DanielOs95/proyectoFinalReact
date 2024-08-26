@@ -4,16 +4,20 @@ import Home from './pages/Home';
 import FlightSearch from './components/FlightSearch';
 import HotelSearch from './components/HotelSearch';
 import Itinerary from './components/Itinerary';
-import Map from './components/Map';
+import Map from '../src/components/Map';
 import WeatherAlert from './components/WeatherAlert';
 
 
 function App () {
+
+  const onSearch = (data) => {
+    console.log('Datos de busqueda:', data)
+  }
   
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home onSearch={onSearch} />} />
         <Route path="/flights" element={<FlightSearch />} />
         <Route path="/hotels" element={<HotelSearch />} />
         <Route path="/itinerary" element={<Itinerary />} />

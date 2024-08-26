@@ -4,14 +4,20 @@ import axios from 'axios';
 
 function WeatherAlert ({location}) {
     const [weather, setWeather] = useState({});
-    const { destination } = location.state.tripData;
+    const tripData = location.state?.tripData || {};
+    const { destination } = tripData;
 
 
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const response = await axios.get('API_URL', {
-                    params: { q: destination },
+                const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
+                    params: {
+                        q: destination,
+                    appid:process.env.REACT_APP_OPENWEATHER_API_KEY,
+                    units:'metric',
+                    },
+                    
                 });
                 setWeather(response.data);
             } catch (error) {
@@ -26,11 +32,13 @@ function WeatherAlert ({location}) {
     return (
         <div>
             <h2>Clima en {destination}</h2>
-            {weather && (
+            {weather.main ? (
                 <div>
-                    <p>Temperatura: {weather.temp}</p>
-                    <p>Condiciones: {weather.description}</p>
+                    <p>Temperatura: {weather.main.temp} °C</p>
+                    <p>Condiciones: {weather.weather[0].description}</p>
                 </div>
+            ) : (
+                <p>No se pudo obtener el Clima.</p>
             )}
         </div>
     );

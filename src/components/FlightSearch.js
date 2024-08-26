@@ -1,29 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getFlights } from '../amadeusService';
 
 
 const FlightSearch = ({location}) => {
     const [flights, setFlights] = useState([]);
-    const { origin, destination, departureDate } = location.state.tripData;
+    const tripData = location?.state?.tripData || {};
+    const { origin, destination, departureDate } = tripData
 
 
     useEffect(() => {
         const fetchFlights = async () => {
             try {
-                const response = await axios.get('API_URL', {
-                    params: {
-                        origin,
-                        destination,
-                        departureDate,
-                    }, 
-                });
-                setFlights(response.data);
+                const data = await getFlights(origin, destination, departureDate);
+                    setFlights(data.data)
             } catch (error) {
                 console.error('Error Fetching Flights', error);
             }
         };
 
-        fetchFlights();
+        if (origin && destination && departureDate) {
+            fetchFlights();
+        }
+        
     }, [origin, destination, departureDate]);
 
 
@@ -31,7 +30,7 @@ const FlightSearch = ({location}) => {
         <div>
             <h2>Vuelos disponibles</h2>
             <ul>
-                {flights.map.call((flight, index) => (
+                {flights.map((flight, index) => (
                     <li key={index}>
                     {flight.airline} - {flight.price} {flight.time}
                     </li>
