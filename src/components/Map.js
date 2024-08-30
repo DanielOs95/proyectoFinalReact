@@ -2,16 +2,19 @@ import React from 'react';
 import { GoogleMap, useLoadScript } from '@react-google-maps/api';
 
 const mapContainerStyle = {
-  width: '100%',
-  height: '400px',
+  width: '450px',
+  height: '250px',
 };
 
-const center = {
-  lat: -34.397,
-  lng: 150.644,
-};
 
-const Map = () => {
+
+const Map = ({tripData}) => {
+  
+  const center = {
+    lat: tripData?.latitude || -34.397,
+    lng: tripData?.longitude || 150.644,
+  };
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, 
   });

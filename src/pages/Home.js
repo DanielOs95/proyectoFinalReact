@@ -11,10 +11,17 @@ const Home = ({ onSearch }) => {
 
 
     const onSubmit = handleSubmit((data) => {
-        onSearch(data); 
-        setTripData(data);
+        const formattedData = {
+            origin: data.origen,
+            destination: data.destino,
+            departureDate: data.fecha,
+            time: data.horario,
+        };
+
+        onSearch(formattedData);
+        setTripData(formattedData);
         reset();
-        navigate('/flights', { state: {tripData: data} });
+        navigate('/flights', {state: { tripData: formattedData } });
         
     });
 
@@ -76,8 +83,11 @@ const Home = ({ onSearch }) => {
         </form>
 
         {tripData && <WeatherAlert location={{state:{ tripData }}} />}
-
+<br />
+<br />
         <Map />
+<br />
+<br />        
         </div>
 
         );

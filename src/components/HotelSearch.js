@@ -13,7 +13,7 @@ function HotelSearch({location}) {
                 const response = await axios.get('https://test.api.amadeus.com/v2/shopping/hotel-offers', {
                     params: {
                         location: destination,
-                        checking: departureDate,
+                        checkin: departureDate,
                         checkout: returnDate,
                     },
                 });
