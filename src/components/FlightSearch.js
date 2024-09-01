@@ -7,7 +7,7 @@ const FlightSearch = () => {
     const location = useLocation();
     const [flights, setFlights] = useState([]);
     const tripData = location?.state?.tripData || {};
-    const { origin, destination, departureDate } = tripData
+    const { origin, destination, departureDate } = tripData;
 
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const FlightSearch = () => {
             <ul>
                 {flights.map((flight, index) => (
                     <li key={index}>
-                    {flight.airline} - {flight.price} {flight.time}
+                    {flight.airline} - {flight.price.total} {flight.depatureTime}
                     </li>
                 ))}
             </ul>

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Map from '../components/Map';
-import WeatherAlert from '../components/WeatherAlert';
+//import '../index.css'
+
 
 const Home = ({ onSearch }) => { 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -82,10 +83,10 @@ const Home = ({ onSearch }) => {
 
         </form>
 
-        {tripData && <WeatherAlert location={{state:{ tripData }}} />}
+        
 <br />
 <br />
-        <Map />
+        <Map tripData={{ latitude: 0, longitude: 0}}/>
 <br />
 <br />        
         </div>

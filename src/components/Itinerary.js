@@ -11,10 +11,16 @@ function Itinerary() {
 
     return (
         <div>
+        <h2>Itinerario</h2>
             <ul>
-                {itinerary.map((item, index) => (
+            {itinerary.length > 0 ? (
+                itinerary.map((item, index) => (
                     <li key={index}>{item}</li>
-                ))}
+            ))
+                
+                ) : (
+                    <p>No hay elementos en el itinerario</p>
+                )}
             </ul>
         </div>
     );

@@ -1,47 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import '../App.css';
+import Icons from './Icons';
 
+function WeatherAlert() {
+  const [search, setSearch] = useState('Mexico')
+  const [values, setValues] = useState('')
+  const [icon, setIcon] = useState('')
 
-function WeatherAlert ({location}) {
-    const [weather, setWeather] = useState({});
-    const tripData = location.state?.tripData || {};
-    const { destination } = tripData;
+  const URL = `https://api.openweathermap.org/data/2.5/weather?q=${search}&lang=es&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
 
+  const getData = async () => {
+    await fetch(URL)
+      .then(response => {return response.json()})
+      .then( data => {
+        if(data.cod >= 400) {
+          setValues(false)
+        }else{         
+          setIcon(data.weather[0].main)
+          setValues(data)
+        }        
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
 
-    useEffect(() => {
-        const fetchWeather = async () => {
-            try {
-                const response = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
-                    params: {
-                        q: destination,
-                    appid:process.env.REACT_APP_OPENWEATHER_API_KEY,
-                    units:'metric',
-                    },
-                    
-                });
-                setWeather(response.data);
-            } catch (error) {
-                console.error(('Error fetching weather', error))
-            }
-        };
+  const handleSearch = (e) => {
+    if(e.key === 'Enter'){      
+      setSearch(e.target.value)
+    }
+  }
+  useEffect(()=>{
+    getData()
+  },[search]) 
 
-        fetchWeather();
-    }, [destination]);
+  return (
+    <>
+    <div className="container">
+      <h2>WeatherAlert</h2>
+      <div className='row'>
+        <input 
+          onKeyDown={handleSearch}
+          type="text"          
+          autoFocus
+        />
+      </div>
+    </div>
 
-
-    return (
-        <div>
-            <h2>Clima en {destination}</h2>
-            {weather.main ? (
-                <div>
-                    <p>Temperatura: {weather.main.temp} °C</p>
-                    <p>Condiciones: {weather.weather[0].description}</p>
-                </div>
-            ) : (
-                <p>No se pudo obtener el Clima.</p>
-            )}
+    <div className='card'>
+      {(values) ? (
+        <div className='card-container'>
+          <h1 className='city-name'>{values.name}</h1>
+          <p className='temp'>{values.main.temp.toFixed(0)}&deg;</p>
+          <img className='icon' src={Icons(icon)} alt="icon-weather" />
+          <div className='card-footer'>
+            <p className='temp-max-min'>{values.main.temp_min.toFixed(0)}&deg;  |  {values.main.temp_max.toFixed(0)}&deg;</p>
+          </div>
         </div>
-    );
+      ) : (
+        <h1>{"City not found"}</h1>
+      )}
+
+    </div>
+
+    </>  
+  );
 }
 
 
