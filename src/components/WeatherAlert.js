@@ -1,38 +1,28 @@
-import { useEffect, useState } from 'react';
-import '../App.css';
+import React, { useState, useEffect } from 'react'
+import '../styles/Climate.css';
 import Icons from './Icons';
+//import { getWeatherData } from '../services/openWeatherService';
 
-function WeatherAlert() {
-  const [search, setSearch] = useState('Mexico')
-  const [values, setValues] = useState('')
+
+function WeatherAlert({ onSearch, weatherData }) {
+  const [search, setSearch] = useState('')
+  const [values, setValues] = useState(null)
   const [icon, setIcon] = useState('')
-
-  const URL = `https://api.openweathermap.org/data/2.5/weather?q=${search}&lang=es&units=metric&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY}`
-
-  const getData = async () => {
-    await fetch(URL)
-      .then(response => {return response.json()})
-      .then( data => {
-        if(data.cod >= 400) {
-          setValues(false)
-        }else{         
-          setIcon(data.weather[0].main)
-          setValues(data)
-        }        
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
 
   const handleSearch = (e) => {
     if(e.key === 'Enter'){      
-      setSearch(e.target.value)
+      onSearch(search);
+      setSearch('')
     }
-  }
+  };
+
+
   useEffect(()=>{
-    getData()
-  },[search]) 
+      if (weatherData) {
+        setValues(weatherData);
+        setIcon(weatherData.weather[0].main);
+      } 
+  },[weatherData]); 
 
   return (
     <>
@@ -41,7 +31,9 @@ function WeatherAlert() {
       <div className='row'>
         <input 
           onKeyDown={handleSearch}
-          type="text"          
+          type="text"   
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}       
           autoFocus
         />
       </div>
@@ -54,16 +46,24 @@ function WeatherAlert() {
           <p className='temp'>{values.main.temp.toFixed(0)}&deg;</p>
           <img className='icon' src={Icons(icon)} alt="icon-weather" />
           <div className='card-footer'>
-            <p className='temp-max-min'>{values.main.temp_min.toFixed(0)}&deg;  |  {values.main.temp_max.toFixed(0)}&deg;</p>
+            <p className='temp-max-min'>
+            Min{values.main.temp_min.toFixed(0)}&deg;  |  
+            Max{values.main.temp_max.toFixed(0)}&deg; 
+            </p>
           </div>
         </div>
       ) : (
-        <h1>{"City not found"}</h1>
+        <h1>{search ? "City not found" : "Por Favor ingresa una ciudad"}</h1>
       )}
 
     </div>
 
+    {/*<div className='map-container'>
+       <Map tripData={{ latitude: 0, longitude: 0}}/>
+    </div>*/}
+  
     </>  
+    
   );
 }
 

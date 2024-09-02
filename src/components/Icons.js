@@ -1,3 +1,31 @@
+/*const Icons = (icon) => {
+    switch (icon) {
+      case 'Thunderstorm':
+        return '/icons/thunderstorm-day-rain.svg';
+      case 'Drizzle':
+        return '/icons/drizzle.svg';
+      case 'Rain':
+        return '/icons/rain.svg';
+      case 'Snow':
+        return '/icons/snow.svg';
+      case 'Clear':
+        return '/icons/clear-day.svg';
+      case 'Atmosphere':
+        return '/icons/barometer.svg';
+      case 'Clouds':
+        return '/icons/fog.svg';
+      case 'Fog':
+        return '/icons/fog-day.svg';
+      case 'Haze':
+        return '/icons/haze.svg';
+      case 'Smoke':
+        return '/icons/smoke.svg';
+      default:
+        return '/icons/clear-day.svg';
+    }
+  };*/
+  
+
 const Icons = (icon) => {
    switch (icon) {
     case 'Thunderstorm':
