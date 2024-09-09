@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Map from '../src/components/Map';
 import WeatherAlert from './components/WeatherAlert';
 import { getWeatherData, getWeatherDataByCoordinates } from './services/openWeatherService';
+import WeatherRadar from './pages/weatherRadar';
+import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
 
 function App () {
@@ -29,11 +32,30 @@ function App () {
 
 
     return (
-        <div>
-          <WeatherAlert onSearch={handleCitySearch} weatherData={weatherData} />
-          <Map location={location} onMapClick={hadleMapClick} />
-        </div>
-    )
+      <Router>
+        <Navbar />
+          
+        <Routes>
+       
+          <Route path='/Radar' element={<WeatherRadar />} />
+
+          <Route 
+            path='/'
+            element={
+              <>
+              <WeatherAlert onSearch={handleCitySearch} weatherData={weatherData} />
+          
+          <br />
+          <br />
+            <Map location={location} onMapClick={hadleMapClick} />
+            </>
+            }
+          />
+      
+            
+          </Routes>
+      </Router> 
+    );
 }
 
 export default App;
